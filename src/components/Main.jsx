@@ -1,6 +1,8 @@
 import { Button } from '@mantine/core';
 import { useEffect, useRef, useState } from 'react';
 import socket from '../services/socketio';
+import LogoText from '../images/trackme-black.png';
+import './Main.scss';
 
 const Main = () => {
 	const [name, setName] = useState('');
@@ -25,10 +27,7 @@ const Main = () => {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			navigator.geolocation.getCurrentPosition(function (position) {
-				if (
-					position.coords.latitude !== prevLocation.current.lat ||
-					position.coords.longitude !== prevLocation.current.lng
-				) {
+				if (position.coords.latitude !== prevLocation.current.lat || position.coords.longitude !== prevLocation.current.lng) {
 					socket.emit('location', {
 						uuid: localStorage.getItem('uuid'),
 						latitude: position.coords.latitude,
@@ -44,20 +43,34 @@ const Main = () => {
 	}, []);
 
 	return (
-		<div>
-			<div className='header'>{name}</div>
-			<Button radius='lg' variant='gradient' gradient={{ from: 'orange', to: 'red' }}>
-				Orange red
-			</Button>
-			<Button radius='lg' variant='gradient' gradient={{ from: 'orange', to: 'red' }}>
-				Orange red
-			</Button>
-			<Button radius='lg' variant='gradient' gradient={{ from: 'orange', to: 'red' }}>
-				Orange red
-			</Button>
-			<Button radius='lg' variant='gradient' gradient={{ from: 'orange', to: 'red' }}>
-				Orange red
-			</Button>
+		<div className='children-main'>
+			<div className='navbar-qrcode'>
+				<div className='qrcode-navbar-img-container'>
+					<img src={LogoText} alt='logo' to='/' />
+				</div>
+			</div>
+			<div className='children-container'>
+				<div className='children-header'>
+					<p className='welcome-kid'>
+						Welcome back, <span className='children-name'>{name}</span>
+					</p>
+					<p className='emergency-text'>What is your emergency?</p>
+				</div>
+				<div className='emergency-buttons'>
+					<Button radius='lg' variant='gradient' gradient={{ from: 'orange', to: 'red' }}>
+						An accident
+					</Button>
+					<Button radius='lg' variant='gradient' gradient={{ from: 'orange', to: 'red' }}>
+						Chest pain
+					</Button>
+					<Button radius='lg' variant='gradient' gradient={{ from: 'orange', to: 'red' }}>
+						Breathlessness
+					</Button>
+					<Button radius='lg' variant='gradient' gradient={{ from: 'orange', to: 'red' }}>
+						Uncounsciouness
+					</Button>
+				</div>
+			</div>
 		</div>
 	);
 };
