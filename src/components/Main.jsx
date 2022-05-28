@@ -27,7 +27,10 @@ const Main = () => {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			navigator.geolocation.getCurrentPosition(function (position) {
-				if (position.coords.latitude !== prevLocation.current.lat || position.coords.longitude !== prevLocation.current.lng) {
+				if (
+					position.coords.latitude !== prevLocation.current.lat ||
+					position.coords.longitude !== prevLocation.current.lng
+				) {
 					socket.emit('location', {
 						uuid: localStorage.getItem('uuid'),
 						latitude: position.coords.latitude,
@@ -57,17 +60,44 @@ const Main = () => {
 					<p className='emergency-text'>What is your emergency?</p>
 				</div>
 				<div className='emergency-buttons'>
-					<Button radius='lg' variant='gradient' gradient={{ from: 'orange', to: 'red' }}>
+					<Button
+						onClick={() =>
+							socket.emit('notification', { uuid: localStorage.getItem('uuid'), message: 'had an accident!' })
+						}
+						radius='lg'
+						variant='gradient'
+						gradient={{ from: 'orange', to: 'red' }}>
 						An accident
 					</Button>
-					<Button radius='lg' variant='gradient' gradient={{ from: 'orange', to: 'red' }}>
-						Chest pain
+					<Button
+						onClick={() =>
+							socket.emit('notification', {
+								uuid: localStorage.getItem('uuid'),
+								message: 'is having a heart attack!',
+							})
+						}
+						radius='lg'
+						variant='gradient'
+						gradient={{ from: 'orange', to: 'red' }}>
+						Heart Attack
 					</Button>
-					<Button radius='lg' variant='gradient' gradient={{ from: 'orange', to: 'red' }}>
-						Breathlessness
+					<Button
+						onClick={() =>
+							socket.emit('notification', { uuid: localStorage.getItem('uuid'), message: 'has trouble breathing!' })
+						}
+						radius='lg'
+						variant='gradient'
+						gradient={{ from: 'orange', to: 'red' }}>
+						Breathing difficulties
 					</Button>
-					<Button radius='lg' variant='gradient' gradient={{ from: 'orange', to: 'red' }}>
-						Uncounsciouness
+					<Button
+						onClick={() =>
+							socket.emit('notification', { uuid: localStorage.getItem('uuid'), message: 'is injured!' })
+						}
+						radius='lg'
+						variant='gradient'
+						gradient={{ from: 'orange', to: 'red' }}>
+						Report fall
 					</Button>
 				</div>
 			</div>
